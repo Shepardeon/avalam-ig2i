@@ -2,7 +2,7 @@
 
 	[ ] Permet de jouer à deux joueurs
 	[ ] Saisie des coups au clavier (tour à tour)
-	[ ] Produit un fichier Json avec la position et le score
+	[X] Produit un fichier Json avec la position et le score
 	[ ] Possibilité d'entrer le nom du fichier Json dans lors de l'exécution
 	[ ] Si aucun nom n'est fournit, utilise un nom par défaut
 	[ ] Détecte la fin de partie et affiche le score

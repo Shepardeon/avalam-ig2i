@@ -1,9 +1,9 @@
 # Cahier des charges avalam-standalone
 
-	[ ] Permet de passer un numéro de diagramme
-	[ ] Permet de passer une position en ligne de commandes (notation FEN)
-	[ ] Saisie d'un nom de fichier et d'une chaîne de description au clavier, facultatifs
-	[ ] Produit un fichier Json avec la position et la description
+	[X] Permet de passer un numéro de diagramme
+	[X] Permet de passer une position en ligne de commandes (notation FEN)
+	[X] Saisie d'un nom de fichier et d'une chaîne de description au clavier, facultatifs
+	[X] Produit un fichier Json avec la position et la description
  
 ## Comment utiliser le dossier :
 

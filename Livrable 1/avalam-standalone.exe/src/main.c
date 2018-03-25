@@ -6,7 +6,7 @@
 
 
 // Pour l'instant c'est un programme de test pour dev la lib JSON
-int main(int argc, char ** argv){
+int main(int argc, char** argv){
 	JSON data;
 	data.pos = getPositionInitiale();
 	data.scores = evaluerScore(data.pos);
@@ -20,4 +20,6 @@ int main(int argc, char ** argv){
 	strcpy(diag.desc, "La position initiale du jeu.");
 
 	ecrireDiag(&diag, "testDiag");
+
+	return 0;
 }

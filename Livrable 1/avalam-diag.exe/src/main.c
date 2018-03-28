@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <dirent.h>
 
 #include "json.h"
 #include <topologie.h>
@@ -11,6 +12,11 @@
 * Fonction qui transforme une chaine FEN en position
 **/
 T_Position convFEN(char*);
+
+/*
+* Fonction qui permet de savoir si un dossier existe
+**/
+int existDir(char*);
 
 int main(int argc, char** argv){
 
@@ -41,16 +47,14 @@ int main(int argc, char** argv){
 			diag.pos = convFEN(argv[1]);
 		}
 		else{
-			diag.numDiag = 0;
-			diag.pos = getPositionInitiale();
-			printf("Il y a un problème avec vos arguments : 2 arguments passés mais aucun numérique.\n");
+			fprintf(stderr, "Il y a un problème avec vos arguments : 2 arguments passés mais aucun numérique.\n");
+			return 1;
 		}
 	}
 	// On a passé trop d'arguments
 	else{
-		diag.numDiag = 0;
-		diag.pos = getPositionInitiale();
-		printf("Vous avez passé trop d'arguments. Assurez vous de passer votre chaine FEN sous la forme \"uUuU... j/r\"\n");
+		fprintf(stderr, "Vous avez passé trop d'arguments. Assurez vous de passer votre chaine FEN sous la forme \"uUuU... j/r\"\n");
+		return 1;
 	}
 
 	while(tolower(rep) != 'o' && tolower(rep) != 'n'){
@@ -75,13 +79,19 @@ int main(int argc, char** argv){
 	strtok(nom, "\n"); // On supprime le caractère de fin de ligne
 	if(nom[0] == '\n') strcpy(nom, "noname");
 
+	if(!existDir(nom)){
+		fprintf(stderr, "%s : fichier introuvable, ou permissions non accordées.\n", nom);
+		return 1;
+	}
+
 	strcat(nom, ".json");
 
 	if(ecrireDiag(&diag, nom))
 		printf("Création du fichier terminé !\n");
-	else
-		printf("Erreur lors de la création de votre fichier...\n");
-
+	else{
+		fprintf(stderr, "Erreur lors de la création de votre fichier...\n");
+		return 1;
+	}
 
 	return 0;
 }
@@ -165,4 +175,30 @@ T_Position convFEN(char* str){
 		pos.trait = JAU;
 
 	return pos;
+}
+
+int existDir(char* p){
+	char path[MAXCHAR/4];
+
+	strcpy(path, p);
+
+	int i = sizeof(path)-1;
+
+	while(i > 0 && path[i] != '/' && path[i] != '\\'){
+		path[i] = '\0';
+		i--;
+	}
+
+	// On a passé un simple fichier, donc on peut le créer
+	if(path[0] == '\0')
+		return 1;
+
+	// On a passé un dossier
+
+	DIR* dir = opendir(path);
+
+	if(dir)
+		return 1; // Le dossier existe
+	else
+		return 0; // Le dossier n'existe pas/on a pas les perms
 }

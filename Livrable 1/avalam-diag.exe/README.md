@@ -1,4 +1,4 @@
-# Cahier des charges avalam-standalone
+# Cahier des charges avalam-diag
 
 	[X] Permet de passer un numéro de diagramme
 	[X] Permet de passer une position en ligne de commandes (notation FEN)

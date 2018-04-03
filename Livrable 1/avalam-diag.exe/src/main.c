@@ -58,7 +58,7 @@ int main(int argc, char** argv){
 		return 1;
 	}
 
-	printf("Entrez le nom du fichier à produire (%i caractères MAX, l'extention .json sera ajoutée automatiquement)\n> ", MAXCHAR/4);
+	printf("Entrez le nom du fichier à produire (%i caractères MAX, l'extension .json sera ajoutée automatiquement)\n> ", MAXCHAR/4);
 	fgets(nom, sizeof(nom), stdin);
 	strtok(nom, "\n"); // On supprime le caractère de fin de ligne
 	if(nom[0] == '\n') strcpy(nom, "noname");

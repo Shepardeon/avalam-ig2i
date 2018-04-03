@@ -58,6 +58,18 @@ int main(int argc, char** argv){
 		return 1;
 	}
 
+	printf("Entrez le nom du fichier à produire (%i caractères MAX, l'extention .json sera ajoutée automatiquement)\n> ", MAXCHAR/4);
+	fgets(nom, sizeof(nom), stdin);
+	strtok(nom, "\n"); // On supprime le caractère de fin de ligne
+	if(nom[0] == '\n') strcpy(nom, "noname");
+
+	if(!existDir(nom)){
+		fprintf(stderr, "%s : fichier introuvable, ou permissions non accordées.\n", nom);
+		return 1;
+	}
+
+	strcat(nom, ".json");
+
 	while(tolower(rep) != 'o' && tolower(rep) != 'n'){
 		printf("Voulez-vous entrer une description pour ce diagramme ? (o/n)\n> ");
 		scanf("%c", &rep);
@@ -70,28 +82,15 @@ int main(int argc, char** argv){
 		diag.desc[0] = '\0';
 		while(fgets(buffer, sizeof(buffer), stdin) != NULL){
 			strtok(buffer, "\n"); // On supprime le caractère de fin de ligne
-			if(buffer[0] == '\n') buffer[0] = ' ';
-
-			strcat(diag.desc, " ");
+			if(buffer[0] == '\n') buffer[0] = '\0';
 
 			strcat(diag.desc, buffer);
+			strcat(diag.desc, " ");
 		}
 	}
 	else{
 		strcpy(diag.desc, "nodesc");
 	}
-
-	printf("Entrez le nom du fichier à produire (%i caractères MAX, l'extention .json sera ajoutée automatiquement)\n> ", MAXCHAR/4);
-	fgets(nom, sizeof(nom), stdin);
-	strtok(nom, "\n"); // On supprime le caractère de fin de ligne
-	if(nom[0] == '\n') strcpy(nom, "noname");
-
-	if(!existDir(nom)){
-		fprintf(stderr, "%s : fichier introuvable, ou permissions non accordées.\n", nom);
-		return 1;
-	}
-
-	strcat(nom, ".json");
 
 	if(ecrireDiag(&diag, nom))
 		printf("Création du fichier terminé !\n");

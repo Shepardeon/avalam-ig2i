@@ -22,6 +22,7 @@ int main(int argc, char** argv){
 
 	char rep = 'a';
 	char nom[MAXCHAR/4];
+	char buffer[MAXCHAR];
 	JSON diag;
 
 	// On a passé aucun argument
@@ -65,10 +66,16 @@ int main(int argc, char** argv){
 
 	if(tolower(rep) == 'o'){
 		printf("Entrez votre description (%i caractères MAX) :\n", MAXCHAR);
-		fgets(diag.desc, sizeof(diag.desc), stdin);
 
-		strtok(diag.desc, "\n"); // On supprime le caractère de fin de ligne
-		if(diag.desc[0] == '\n') diag.desc[0] = ' ';
+		diag.desc[0] = '\0';
+		while(fgets(buffer, sizeof(buffer), stdin) != NULL){
+			strtok(buffer, "\n"); // On supprime le caractère de fin de ligne
+			if(buffer[0] == '\n') buffer[0] = ' ';
+
+			strcat(diag.desc, " ");
+
+			strcat(diag.desc, buffer);
+		}
 	}
 	else{
 		strcpy(diag.desc, "nodesc");
@@ -184,10 +191,12 @@ int existDir(char* p){
 
 	int i = sizeof(path)-1;
 
-	while(i > 0 && path[i] != '/' && path[i] != '\\'){
+	while(i >= 0 && path[i] != '/' && path[i] != '\\'){
 		path[i] = '\0';
 		i--;
 	}
+
+	printf("%s ", path);
 
 	// On a passé un simple fichier, donc on peut le créer
 	if(path[0] == '\0')
